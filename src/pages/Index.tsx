@@ -3,14 +3,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
+
+interface FlowerColor {
+  name: string;
+  hex: string;
+  image: string;
+}
 
 interface Flower {
   id: string;
   name: string;
   category: 'focal' | 'secondary' | 'addition';
-  colors: { name: string; hex: string }[];
-  image: string;
+  colors: FlowerColor[];
 }
 
 interface SelectedFlower {
@@ -25,77 +31,108 @@ const flowerData: Flower[] = [
     name: 'Роза',
     category: 'focal',
     colors: [
-      { name: 'Красная', hex: '#DC143C' },
-      { name: 'Розовая', hex: '#FFB6C1' },
-      { name: 'Белая', hex: '#FFFFFF' },
-      { name: 'Желтая', hex: '#FFD700' },
+      { name: 'Красная', hex: '#DC143C', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/6990bd6c-2ee7-4952-b2df-ff9fc7e6448b.jpg' },
+      { name: 'Розовая', hex: '#FFB6C1', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/98d07761-5e48-411b-85fe-c270a26d115d.jpg' },
+      { name: 'Белая', hex: '#FFFFFF', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/a98f839d-2740-40c2-aa0b-7f37e5c33686.jpg' },
+      { name: 'Желтая', hex: '#FFD700', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/dcbf5f66-394f-45e5-a6a7-683d1a6c4795.jpg' },
     ],
-    image: '/placeholder.svg',
   },
   {
     id: 'peony',
     name: 'Пион',
     category: 'focal',
     colors: [
-      { name: 'Розовый', hex: '#FFC0CB' },
-      { name: 'Белый', hex: '#FFFFFF' },
-      { name: 'Коралловый', hex: '#FF6B6B' },
+      { name: 'Розовый', hex: '#FFC0CB', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/f5bfa81c-0372-4c70-96b7-563fe6ce90af.jpg' },
+      { name: 'Белый', hex: '#FFFFFF', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/c996dee8-e1d4-4c9a-8444-d72eb717723a.jpg' },
+      { name: 'Коралловый', hex: '#FF6B6B', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/03e160f1-0771-436f-85aa-426b881ed52c.jpg' },
     ],
-    image: '/placeholder.svg',
   },
   {
     id: 'tulip',
     name: 'Тюльпан',
     category: 'focal',
     colors: [
-      { name: 'Красный', hex: '#E63946' },
-      { name: 'Желтый', hex: '#FFD60A' },
-      { name: 'Розовый', hex: '#FF69B4' },
-      { name: 'Фиолетовый', hex: '#9D4EDD' },
+      { name: 'Красный', hex: '#E63946', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/4f2482f7-a6bc-4529-9a84-231f6d1471b5.jpg' },
+      { name: 'Желтый', hex: '#FFD60A', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/ecb3557f-8f44-4c88-8c34-b082202d73de.jpg' },
+      { name: 'Розовый', hex: '#FF69B4', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/c5aea366-1c13-4f5a-bd2d-1a302351291a.jpg' },
+      { name: 'Фиолетовый', hex: '#9D4EDD', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/284ba033-7662-47e7-bcc5-0228e8554f20.jpg' },
     ],
-    image: '/placeholder.svg',
+  },
+  {
+    id: 'sunflower',
+    name: 'Подсолнух',
+    category: 'focal',
+    colors: [
+      { name: 'Желтый', hex: '#FFA500', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/40c0cbda-8848-4b77-ab85-8a2fd96ec629.jpg' },
+    ],
+  },
+  {
+    id: 'hydrangea',
+    name: 'Гортензия',
+    category: 'focal',
+    colors: [
+      { name: 'Фиолетовая', hex: '#B19CD9', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/992cc3e3-858b-4983-ab95-69c51d1d8ff1.jpg' },
+      { name: 'Синяя', hex: '#7CB9E8', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/472454b8-9c1e-446b-a006-195c0907c500.jpg' },
+    ],
+  },
+  {
+    id: 'carnation',
+    name: 'Гвоздика',
+    category: 'focal',
+    colors: [
+      { name: 'Розовая', hex: '#FFB6D9', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/0db71c57-bf70-41dc-b22f-320ccadebac3.jpg' },
+    ],
+  },
+  {
+    id: 'orchid',
+    name: 'Орхидея',
+    category: 'focal',
+    colors: [
+      { name: 'Белая', hex: '#FAFAFA', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/6e503095-6fd9-4b2a-b0d7-74eb34d02884.jpg' },
+    ],
   },
   {
     id: 'gypsophila',
     name: 'Гипсофила',
     category: 'secondary',
     colors: [
-      { name: 'Белая', hex: '#FFFFFF' },
-      { name: 'Розовая', hex: '#FFE4E6' },
+      { name: 'Белая', hex: '#FFFFFF', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/c6f9b711-dda5-4eeb-af1c-499c928ea9a7.jpg' },
+      { name: 'Розовая', hex: '#FFE4E6', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/ba0724b7-a3fd-4ea7-a68e-5b4e4d27d3fa.jpg' },
     ],
-    image: '/placeholder.svg',
   },
   {
     id: 'limonium',
     name: 'Лимониум',
     category: 'secondary',
     colors: [
-      { name: 'Фиолетовый', hex: '#9D4EDD' },
-      { name: 'Розовый', hex: '#FFB3C6' },
-      { name: 'Белый', hex: '#F8F9FA' },
+      { name: 'Фиолетовый', hex: '#9D4EDD', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/ed4e645b-f739-4671-a725-1bf20be428f9.jpg' },
+      { name: 'Розовый', hex: '#FFB3C6', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/530b36eb-11f0-40d6-9924-229f78b4cdbe.jpg' },
+      { name: 'Белый', hex: '#F8F9FA', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/2b000ea5-722c-40e1-8fc8-731d766e264c.jpg' },
     ],
-    image: '/placeholder.svg',
   },
   {
     id: 'eucalyptus',
     name: 'Эвкалипт',
     category: 'addition',
-    colors: [{ name: 'Зеленый', hex: '#90BE6D' }],
-    image: '/placeholder.svg',
+    colors: [{ name: 'Зеленый', hex: '#90BE6D', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/0fbbf048-69bb-4a42-b164-6a2944835c1f.jpg' }],
   },
   {
     id: 'ruscus',
     name: 'Рускус',
     category: 'addition',
-    colors: [{ name: 'Зеленый', hex: '#52B788' }],
-    image: '/placeholder.svg',
+    colors: [{ name: 'Зеленый', hex: '#52B788', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/2c838796-907c-46e2-b88f-092988c30980.jpg' }],
   },
   {
     id: 'wheat',
     name: 'Пшеница',
     category: 'addition',
-    colors: [{ name: 'Золотой', hex: '#F4A261' }],
-    image: '/placeholder.svg',
+    colors: [{ name: 'Золотой', hex: '#F4A261', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/7c859fab-a3f4-4b1d-8b74-336e63d57d0d.jpg' }],
+  },
+  {
+    id: 'lavender',
+    name: 'Лаванда',
+    category: 'addition',
+    colors: [{ name: 'Фиолетовая', hex: '#9D84B7', image: 'https://cdn.poehali.dev/projects/5e404e1a-ace1-4248-8f70-7af6b1e8b640/files/4a4a52cc-7ef0-435b-a322-ecf87ef2264c.jpg' }],
   },
 ];
 
@@ -105,11 +142,13 @@ const colorPalettes = [
   { name: 'Нежность', colors: ['#FFC0CB', '#FFFFFF', '#FFE4E6', '#F8F9FA'] },
   { name: 'Лаванда', colors: ['#9D4EDD', '#FFB3C6', '#FFFFFF', '#90BE6D'] },
   { name: 'Солнечная', colors: ['#FFD60A', '#FFD700', '#F4A261', '#90BE6D'] },
+  { name: 'Океан', colors: ['#7CB9E8', '#B19CD9', '#FFFFFF', '#52B788'] },
 ];
 
 export default function Index() {
   const [selectedFlowers, setSelectedFlowers] = useState<SelectedFlower[]>([]);
   const [activeTab, setActiveTab] = useState('focal');
+  const [bouquetVariant, setBouquetVariant] = useState(0);
 
   const addFlower = (flowerId: string, color: string) => {
     const existing = selectedFlowers.find(
@@ -151,59 +190,58 @@ export default function Index() {
     }
   };
 
-  const generateBouquet = () => {
+  const generateBouquetSpiral = (seed: number) => {
     const circles: { x: number; y: number; radius: number; color: string }[] = [];
     const centerX = 200;
     const centerY = 200;
     const bouquetRadius = 160;
 
+    const allFlowers: { radius: number; color: string; category: string }[] = [];
     selectedFlowers.forEach(({ flowerId, color, count }) => {
       const flower = flowerData.find((f) => f.id === flowerId);
       const radius = flower?.category === 'focal' ? 24 : flower?.category === 'secondary' ? 14 : 8;
-
       for (let i = 0; i < count; i++) {
-        let attempts = 0;
-        let placed = false;
-
-        while (attempts < 100 && !placed) {
-          const angle = Math.random() * Math.PI * 2;
-          const distance = Math.random() * bouquetRadius * 0.8;
-          const x = centerX + Math.cos(angle) * distance;
-          const y = centerY + Math.sin(angle) * distance;
-
-          const distanceFromCenter = Math.sqrt(
-            Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
-          );
-
-          if (distanceFromCenter + radius <= bouquetRadius) {
-            const overlaps = circles.some((circle) => {
-              const dist = Math.sqrt(
-                Math.pow(circle.x - x, 2) + Math.pow(circle.y - y, 2)
-              );
-              return dist < circle.radius + radius + 2;
-            });
-
-            if (!overlaps) {
-              circles.push({ x, y, radius, color });
-              placed = true;
-            }
-          }
-
-          attempts++;
-        }
+        allFlowers.push({ radius, color, category: flower?.category || 'focal' });
       }
+    });
+
+    allFlowers.sort((a, b) => {
+      if (a.category === 'focal' && b.category !== 'focal') return -1;
+      if (a.category !== 'focal' && b.category === 'focal') return 1;
+      if (a.category === 'secondary' && b.category === 'addition') return -1;
+      if (a.category === 'addition' && b.category === 'secondary') return 1;
+      return 0;
+    });
+
+    let angle = seed * 137.5;
+    let spiralRadius = 0;
+    const spiralStep = 8;
+
+    allFlowers.forEach((flower, index) => {
+      const radian = (angle * Math.PI) / 180;
+      
+      if (flower.category === 'focal') {
+        spiralRadius = index * spiralStep;
+      } else if (flower.category === 'secondary') {
+        spiralRadius = (index * spiralStep) + 5;
+      } else {
+        spiralRadius = Math.min((index * spiralStep) + 10, bouquetRadius - flower.radius - 10);
+      }
+
+      const x = centerX + Math.cos(radian) * Math.min(spiralRadius, bouquetRadius - flower.radius - 10);
+      const y = centerY + Math.sin(radian) * Math.min(spiralRadius, bouquetRadius - flower.radius - 10);
+
+      circles.push({ x, y, radius: flower.radius, color: flower.color });
+
+      angle += 137.5 + (seed * 10);
     });
 
     return circles;
   };
 
-  const bouquetCircles = selectedFlowers.length > 0 ? generateBouquet() : [];
-
-  const categoryNames = {
-    focal: 'Фокальные',
-    secondary: 'Второстепенные',
-    addition: 'Дополнения',
-  };
+  const bouquetVariants = selectedFlowers.length > 0 
+    ? [generateBouquetSpiral(0), generateBouquetSpiral(1), generateBouquetSpiral(2)]
+    : [[], [], []];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-green-50">
@@ -217,6 +255,43 @@ export default function Index() {
             Создавайте идеальные букеты с помощью AI
           </p>
         </header>
+
+        <div className="flex gap-4 mb-6 justify-end">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="lg">
+                <Icon name="Palette" size={20} className="mr-2" />
+                Палитры цветов
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Рекомендуемые палитры</SheetTitle>
+              </SheetHeader>
+              <div className="space-y-3 mt-6">
+                {colorPalettes.map((palette) => (
+                  <div
+                    key={palette.name}
+                    className="p-3 rounded-lg border border-gray-200 hover:border-purple-300 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-sm">{palette.name}</span>
+                      <div className="flex gap-1.5">
+                        {palette.colors.map((color, i) => (
+                          <div
+                            key={i}
+                            className="w-7 h-7 rounded-full border-2 border-white shadow-sm"
+                            style={{ backgroundColor: color }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
@@ -235,42 +310,36 @@ export default function Index() {
                   </TabsList>
 
                   {(['focal', 'secondary', 'addition'] as const).map((category) => (
-                    <TabsContent key={category} value={category} className="space-y-4">
+                    <TabsContent key={category} value={category} className="space-y-4 max-h-[600px] overflow-y-auto">
                       {flowerData
                         .filter((f) => f.category === category)
                         .map((flower) => (
                           <Card key={flower.id} className="hover:shadow-md transition-shadow">
                             <CardContent className="p-4">
-                              <div className="flex items-start gap-4">
-                                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
-                                  {category === 'focal' && '🌹'}
-                                  {category === 'secondary' && '✨'}
-                                  {category === 'addition' && '🌿'}
-                                </div>
-                                <div className="flex-1">
-                                  <h3 className="font-medium text-lg mb-2">{flower.name}</h3>
-                                  <div className="flex flex-wrap gap-2">
-                                    {flower.colors.map((colorOption) => (
-                                      <Button
-                                        key={colorOption.name}
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() => addFlower(flower.id, colorOption.hex)}
-                                        className="text-xs"
-                                        style={{
-                                          borderColor: colorOption.hex,
-                                          backgroundColor: `${colorOption.hex}15`,
-                                        }}
-                                      >
-                                        <div
-                                          className="w-3 h-3 rounded-full mr-1.5 border border-gray-300"
-                                          style={{ backgroundColor: colorOption.hex }}
-                                        />
-                                        {colorOption.name}
-                                      </Button>
-                                    ))}
+                              <h3 className="font-medium text-lg mb-3">{flower.name}</h3>
+                              <div className="grid grid-cols-2 gap-3">
+                                {flower.colors.map((colorOption) => (
+                                  <div
+                                    key={colorOption.name}
+                                    className="relative group cursor-pointer"
+                                    onClick={() => addFlower(flower.id, colorOption.hex)}
+                                  >
+                                    <div className="aspect-square rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-pink-400 transition-colors">
+                                      <img
+                                        src={colorOption.image}
+                                        alt={`${flower.name} ${colorOption.name}`}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                                      />
+                                    </div>
+                                    <div className="mt-1 flex items-center justify-between">
+                                      <span className="text-xs text-gray-600">{colorOption.name}</span>
+                                      <div
+                                        className="w-4 h-4 rounded-full border border-gray-300"
+                                        style={{ backgroundColor: colorOption.hex }}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+                                ))}
                               </div>
                             </CardContent>
                           </Card>
@@ -278,36 +347,6 @@ export default function Index() {
                     </TabsContent>
                   ))}
                 </Tabs>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-lg">
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                  <Icon name="Palette" size={24} className="text-purple-500" />
-                  Рекомендуемые палитры
-                </h2>
-                <div className="space-y-3">
-                  {colorPalettes.map((palette) => (
-                    <div
-                      key={palette.name}
-                      className="p-3 rounded-lg border border-gray-200 hover:border-purple-300 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm">{palette.name}</span>
-                        <div className="flex gap-1.5">
-                          {palette.colors.map((color, i) => (
-                            <div
-                              key={i}
-                              className="w-7 h-7 rounded-full border-2 border-white shadow-sm"
-                              style={{ backgroundColor: color }}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -327,6 +366,49 @@ export default function Index() {
                   </div>
                 ) : (
                   <div className="space-y-6">
+                    <div className="flex gap-4">
+                      {[0, 1, 2].map((variantIndex) => (
+                        <div
+                          key={variantIndex}
+                          onClick={() => setBouquetVariant(variantIndex)}
+                          className={`flex-1 cursor-pointer p-2 rounded-lg border-2 transition-all ${
+                            bouquetVariant === variantIndex
+                              ? 'border-pink-400 bg-pink-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <svg width="100%" height="120" viewBox="0 0 400 400" className="drop-shadow-sm">
+                            <circle
+                              cx="200"
+                              cy="200"
+                              r="160"
+                              fill="none"
+                              stroke="#E5DEFF"
+                              strokeWidth="1"
+                              strokeDasharray="4 4"
+                            />
+                            {bouquetVariants[variantIndex].map((circle, i) => (
+                              <circle
+                                key={i}
+                                cx={circle.x}
+                                cy={circle.y}
+                                r={circle.radius}
+                                fill={circle.color}
+                                stroke="#FFFFFF"
+                                strokeWidth="2"
+                                style={{
+                                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+                                }}
+                              />
+                            ))}
+                          </svg>
+                          <p className="text-center text-xs text-gray-600 mt-1">
+                            Вариант {variantIndex + 1}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
                     <div className="flex justify-center">
                       <svg width="400" height="400" className="drop-shadow-lg">
                         <circle
@@ -338,8 +420,7 @@ export default function Index() {
                           strokeWidth="2"
                           strokeDasharray="4 4"
                         />
-
-                        {bouquetCircles.map((circle, i) => (
+                        {bouquetVariants[bouquetVariant].map((circle, i) => (
                           <circle
                             key={i}
                             cx={circle.x}
@@ -359,49 +440,51 @@ export default function Index() {
 
                     <div className="space-y-2">
                       <h3 className="font-medium text-sm text-gray-600 mb-3">Состав букета:</h3>
-                      {selectedFlowers.map(({ flowerId, color, count }) => {
-                        const flower = flowerData.find((f) => f.id === flowerId);
-                        const colorName =
-                          flower?.colors.find((c) => c.hex === color)?.name || '';
+                      <div className="max-h-[200px] overflow-y-auto space-y-2">
+                        {selectedFlowers.map(({ flowerId, color, count }) => {
+                          const flower = flowerData.find((f) => f.id === flowerId);
+                          const flowerColor = flower?.colors.find((c) => c.hex === color);
 
-                        return (
-                          <div
-                            key={`${flowerId}-${color}`}
-                            className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div
-                                className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
-                                style={{ backgroundColor: color }}
-                              />
-                              <span className="text-sm">
-                                {flower?.name} {colorName}
-                              </span>
+                          return (
+                            <div
+                              key={`${flowerId}-${color}`}
+                              className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                            >
+                              <div className="flex items-center gap-3">
+                                <img
+                                  src={flowerColor?.image}
+                                  alt={flower?.name}
+                                  className="w-10 h-10 rounded object-cover"
+                                />
+                                <span className="text-sm">
+                                  {flower?.name} {flowerColor?.name}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => removeFlower(flowerId, color)}
+                                  className="h-7 w-7 p-0"
+                                >
+                                  <Icon name="Minus" size={14} />
+                                </Button>
+                                <Badge variant="secondary" className="min-w-[2rem] justify-center">
+                                  {count}
+                                </Badge>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => addFlower(flowerId, color)}
+                                  className="h-7 w-7 p-0"
+                                >
+                                  <Icon name="Plus" size={14} />
+                                </Button>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => removeFlower(flowerId, color)}
-                                className="h-7 w-7 p-0"
-                              >
-                                <Icon name="Minus" size={14} />
-                              </Button>
-                              <Badge variant="secondary" className="min-w-[2rem] justify-center">
-                                {count}
-                              </Badge>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => addFlower(flowerId, color)}
-                                className="h-7 w-7 p-0"
-                              >
-                                <Icon name="Plus" size={14} />
-                              </Button>
-                            </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
 
                     <Button
